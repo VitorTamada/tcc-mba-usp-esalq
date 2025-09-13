@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <script src="{% static 'hide_list.js' %}"></script>
+  <script src="{% static 'deficiencia_por_violacao.js' %}"></script>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    {% block extra_head %}
+      <link rel="stylesheet" href="{% static 'divide_columns.css' %}">
+    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+  <h1>MBA USP/ESALQ - TCC</h1>
+  <h2>Inclusão digital para todos: as deficiências mais negligenciadas na acessibilidade Web</h2>
+
+    <!--<p><a href="/testes/"/>Testes</a></p>-->
+
+    <p><a href="/todos_resultados_analise_site"/>Analisa site</a></p>
+    <!--<p><a href="/analisa_site/"/>Nova análise</a></p>-->
+    <!--<p><a href="/analise_resultados/"/>Análise de resultados</a></p>-->
+    <p><a href="/classifica_violacao/"/>Classifica violação pelo tipo de deficiência</a></p>
+    <p><a href="/criterios_wcag/"/>Critérios WCAG</a></p>
+    <p><a href="/categoriza_site/"/>Categoriza site</a></p>
+    <!--<p><a href="/revisao_manual/"/>Resultados que necessitam de revisão manual</a></p>-->
+    <p><a href="/estatisticas_axe_core/"/>Estatísticas dos resultados (violações axe-core)</a></p>
+    <p><a href="/estatisticas_axe_core_2/"/>Estatísticas dos resultados (violações axe-core) (parte 2)</a></p>
+    <p><a href="/estatisticas_wcag/"/>Estatísticas dos resultados (WCAG)</a></p>
+    <p><a href="/estatisticas_wcag_2/"/>Estatísticas dos resultados (WCAG) (parte 2)</a></p>
+
+    <br>
+    -------------------------------------------------------------------------------
+    <br>
+
+    {% block content %}{% endblock %}
+
+  </body>
+</html>

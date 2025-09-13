@@ -1,0 +1,87 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div style="width:30%; float:left">
+            <h3>Classificar violação pelo tipo de deficiência afetada</h3>
+
+            <form action="/classifica_violacao/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Inserir" name="insere">
+            </form>
+
+            <br><br>
+
+            Tipos de deficiência cadastradas até o momento ({{ todos_td|length }}):<br><br>
+            {% if todos_td|length > 0 %}
+                {% for td, count in contador_violacao_por_deficiencia.items %}
+                    {% if td|length > 0 %}
+                        <form action="" method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="td" value="{{ td }}">
+                            <input class="fa fa-trash-o" name="delete" type="submit" value="Delete"/>
+                        </form>
+                        ({{ count }}) {{ td }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <ul>
+                    <li>(vazio)</li>
+                </ul>
+            {% endif %}
+        </div>
+        <div style="width:70%; float:left">
+            <b>Classificação das violações ({{ todos_acv|length }})</b>
+            <br><br>
+            <table>
+                <tr class="first_tr">
+                    <th align="left" style="width:15%;"><b>Tipo de deficiência</b></th>
+                    <th align="left"><b>Violação</b></th>
+                    <th align="left"><b>Impacto</b></th>
+                    <th align="left"><b>Descrição</b></th>
+                </tr>
+                {% for acv in todos_acv %}
+                    <tr>
+                        <th align="left">
+                            <form action="" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                    {% for td in todos_td %}
+                                        <input type="checkbox" id="{{ td.deficiencia }}" name="{{ td.deficiencia }}" value="{{ td.deficiencia }}">
+                                        <label for="{{ td.deficiencia }}">{{ td.deficiencia }}</label>
+                                        <br>
+                                    {% endfor %}
+                                    <input type="hidden" name="acv" value="{{ acv.violacao }}">
+                                    <input class="fa fa-trash-o" name="put" type="submit" value="Salvar"/>
+                                </select>
+                            </form>
+                        </th>
+                        <th align="left">
+                            <font color="blue">
+                                <a href="https://dequeuniversity.com/rules/axe/4.10/{{ acv.violacao }}"/>
+                                    {{ acv.violacao }}
+                                </a>
+                            </font>
+                            <br>
+                            <ul>
+                                {% for vtd in todos_vtd %}
+                                    {% if acv.violacao == vtd.violacao.violacao and vtd.exist %}
+                                        <li>{{ vtd.deficiencia.deficiencia }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </th>
+                        <th align="left">{{ acv.impact }}</th>
+                        <th align="left">{{ acv.description }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

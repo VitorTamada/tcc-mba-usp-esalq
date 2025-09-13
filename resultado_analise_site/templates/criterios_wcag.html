@@ -1,0 +1,94 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div style="width:30%; float:left">
+            <h3>Classifica violações do axe-core de acordo com critérios do WCAG</h3>
+
+            <form action="/criterios_wcag/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Inserir" name="insere">
+            </form>
+
+            <br><br>
+
+            Legenda das prioridades:
+            <ul>
+                <li>A: Máxima</li>
+                <li>AA: Média</li>
+                <li>AAA: Baixa</li>
+            </ul>
+            <br>
+            Critérios WCAG cadastrados até o momento ({{ todos_criterios|length }}):<br><br>
+            {% if todos_criterios|length > 0 %}
+                {% for criterio, count in contador_violacao_por_criterio.items %}
+                    {% if criterio.criterio|length > 0 %}
+                        <form action="" method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="criterio" value="{{ criterio.criterio }}">
+                            <input class="fa fa-trash-o" name="delete" type="submit" value="Delete"/>
+                        </form>
+                        ({{ count }}) [{{ criterio.prioridade }}] {{ criterio.criterio }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                (vazio)
+            {% endif %}
+        </div>
+
+        <div style="width:70%; float:left">
+            <b>Classificação das violações ({{ todos_acv|length }})</b>
+            <br><br>
+            <table>
+                <tr class="first_tr">
+                    <th align="left" style="width:15%;"><b>Critério WCAG</b></th>
+                    <th align="left"><b>Violação</b></th>
+                    <th align="left"><b>Impacto</b></th>
+                    <th align="left"><b>Descrição</b></th>
+                </tr>
+                {% for acv in todos_acv %}
+                    <tr>
+                        <th align="left">
+                            <form action="" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                    {% for criterio in todos_criterios %}
+                                        <input type="checkbox" id="{{ criterio.criterio }}" name="{{ criterio.criterio }}" value="{{ criterio.criterio }}">
+                                        <label for="{{ criterio.criterio }}">{{ criterio.criterio }}</label>
+                                        <br>
+                                    {% endfor %}
+                                    <input type="hidden" name="acv" value="{{ acv.violacao }}">
+                                    <input class="fa fa-trash-o" name="put" type="submit" value="Salvar"/>
+                                </select>
+                            </form>
+                        </th>
+                        <th align="left">
+                            <font color="blue">
+                                <a href="https://dequeuniversity.com/rules/axe/4.10/{{ acv.violacao }}"/>
+                                    {{ acv.violacao }}
+                                </a>
+                            </font>
+                            <br>
+                            <ul>
+                                {% for vcw in todos_vcw %}
+                                    {% if acv.violacao == vcw.violacao.violacao and vcw.exist %}
+                                        <li>{{ vcw.criterio.criterio }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </th>
+                        <th align="left">{{ acv.impact }}</th>
+                        <th align="left">{{ acv.description }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}

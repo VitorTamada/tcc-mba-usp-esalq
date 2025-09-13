@@ -1,0 +1,75 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+    <div class="left0">
+        <h3>Categoriza site</h3>
+
+        <form action="/categoriza_site/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Inserir" name="insere">
+        </form>
+
+        <br><br>
+
+        Categorias de sites cadastradas até o momento ({{ todos_cs|length }}):<br>
+        {% if todos_cs|length > 0 %}
+            <ul>
+            {% for categoria, contagem in contagem_categoria.items %}
+                {% if categoria.categoria|length > 0 %}
+                    <li>
+                        <form action="" method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="cs" value="{{ categoria.categoria }}">
+                            <input class="fa fa-trash-o" name="delete" type="submit" value="Delete"/>
+                        </form>
+                        ({{ contagem }}) {{ categoria.categoria }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% else %}
+            <ul>
+                <li>(vazio)</li>
+            </ul>
+        {% endif %}
+    </div>
+
+    <div class="right0">
+        <b>Categorias dos sites</b>
+        <br><br>
+        <table>
+            <tr class="first_tr">
+                <th align="left"><b>Site</b></th>
+                <th align="left"><b>Categoria</b></th>
+            </tr>
+            {% for site in todos_sites %}
+                <tr>
+                    <th align="left">
+                        <a href="https://{{ site.url }}"/>
+                            {{ site.url }}
+                        </a>
+                    </th>
+                    <th align="right">
+                        <form action="" method="POST" style="display: inline;">
+                            <select name="categoria" id="cs">
+                                <option selected="selectd" value="{{ site.categoria.categoria }}">{{ site.categoria.categoria }}</option>
+                                {% for cs in todos_cs %}
+                                    <option value="{{ cs.categoria }}">{{ cs.categoria }}</option>
+                                {% endfor %}
+                            </select>
+                            {% csrf_token %}
+                            <input type="hidden" name="site" value="{{ site.url }}">
+                            <input class="fa fa-trash-o" name="put" type="submit" value="Salvar"/>
+                        </form>
+                    </th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

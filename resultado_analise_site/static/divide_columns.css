@@ -1,0 +1,40 @@
+.left0 {
+  width: 50%;
+  float:left;
+}
+
+.right0 {
+  width: 50%;
+  float:left;
+}
+
+
+
+.left1 {
+  width: 30%;
+  float: left;
+}
+
+.center1 {
+  width: 30%;
+  float: left;
+}
+
+.right1 {
+  width: 30%;
+  float: right;
+}
+
+
+
+table, tr, th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-weight: normal;
+  height: 100%;
+}
+
+.first_tr{
+  font-weight: bold;
+  background-color: #bbbbbb;
+}

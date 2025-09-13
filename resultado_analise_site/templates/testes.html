@@ -1,0 +1,107 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="row">
+    <div class="column">
+      <h3>Testes variados</h3>
+      <br>
+      <table border="1">
+        <tr style="padding: 5px">
+          {% for col in df.columns %}
+            <th style="padding: 5px">
+              {{col}}
+            </th>
+          {% endfor %}
+        </tr>
+          {% for index, row in df.iterrows %}
+            <tr style="padding: 5px">
+              {% for cell in row %}
+                <th align="left" style="padding: 5px">
+                  {{cell}}
+                </th>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+      </table>
+    </div>
+
+    <div style="width: 20%">
+      <h3>Legendas</h3>
+      <br>
+      <table border="1">
+        <tr style="padding: 5px">
+          <th align="left" style="padding: 5px">
+            Index
+          </th>
+          <th align="left" style="padding: 5px">
+            Legenda
+          </th>
+        </tr>
+        {% for dupla in legends_violacao %}
+          <tr style="padding: 5px">
+            <th align="left" style="padding: 5px">
+              {{ dupla.0 }}
+            </th>
+            <th align="left" style="padding: 5px">
+              {{ dupla.1 }}
+            </th>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div style="width: 20%">
+      <h3>Legendas</h3>
+      <br>
+      <table border="1">
+        <tr style="padding: 5px">
+          <th align="left" style="padding: 5px">
+            Index
+          </th>
+          <th align="left" style="padding: 5px">
+            Legenda
+          </th>
+        </tr>
+        {% for dupla in legenda_categoria_site %}
+          <tr style="padding: 5px">
+            <th align="left" style="padding: 5px">
+              {{ dupla.0 }}
+            </th>
+            <th align="left" style="padding: 5px">
+              {{ dupla.1 }}
+            </th>
+          </tr>
+        {% endfor %}
+      </table>
+      <br>
+      <table border="1">
+        <tr style="padding: 5px">
+          <th align="left" style="padding: 5px">
+            Index
+          </th>
+          <th align="left" style="padding: 5px">
+            Legenda
+          </th>
+        </tr>
+        {% for dupla in legenda_deficiencia %}
+          <tr style="padding: 5px">
+            <th align="left" style="padding: 5px">
+              {{ dupla.0 }}
+            </th>
+            <th align="left" style="padding: 5px">
+              {{ dupla.1 }}
+            </th>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+
+{% endblock %}

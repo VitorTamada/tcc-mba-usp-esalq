@@ -1,0 +1,42 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+
+
+    <h3>Resultado da análise do site </h3>
+
+    <br>
+    <div class="row">
+        <div class="column">
+            {% for k, lista in todos_ras.items %}
+                <button onclick="myFunction('{{ k }}')" id="btn{{ k }}">&#11167;
+                </button>
+                {{ k }}
+                <div id="{{ k }}">
+                    <ul>
+                        {% for v in lista %}
+                            <li>{{ v }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+        <div class="column">
+            {% for acv in todos_acv %}
+                <ul>
+                    <li>
+                        <b>Violação:</b> {{ acv.violacao }}<br>
+                        <b>Impacto:</b> {{ acv.impact }}<br>
+                        <b>Descrição:</b> {{ acv.description }}
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

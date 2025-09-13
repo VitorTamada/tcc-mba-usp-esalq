@@ -1,0 +1,64 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
+    <h3>Estatísticas dos resultados</h3>
+    <br>
+    Número total de violações: {{ numero_total_violacoes }}
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="column" style="padding: 5px;">
+            Associação entre violações
+            <br>
+            <br>
+            <table style="table-layout: fixed; border: 1px solid black; border-collapse: collapse;">
+                <tr style="padding: 5px;">
+                    <th style=" border-bottom: 1px; border: 1px solid black; border-collapse: collapse; background-color: #bbbbbb;"></th>
+                    {% for col in tabela.columns %}
+                        <th style="padding: 5px; border: 1px solid black; border-collapse: collapse; background-color: #bbbbbb;">
+                            <a href="https://dequeuniversity.com/rules/axe/4.10/{{ col }}"/>
+                                {{ col }}
+                            </a>
+                        </th>
+                    {% endfor %}
+                </tr>
+                {% for index, row in tabela.iterrows %}
+                    <tr style="padding: 5px; border: 1px solid black; border-collapse: collapse;">
+                        <th align="left" style="padding: 5px; border: 1px solid black; border-collapse: collapse; background-color: #bbbbbb;">
+                            <a href="https://dequeuniversity.com/rules/axe/4.10/{{ index }}"/>
+                                {{ index }}
+                            </a>
+                        </th>
+                        {% for cell in row %}
+                            {% if cell > 0 %}
+                                <th align="left" style="padding: 5px; border: 1px solid black; border-collapse: collapse;">
+                                    {{ cell }}
+                                </th>
+                            {% else %}
+                                <th style="padding: 5px; border: 1px solid black; border-collapse: collapse;"></th>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+              </table>
+        </div>
+
+        <div class="column" style="padding: 5px;">
+
+        </div>
+
+        <div class="column" style="padding: 5px;">
+
+        </div>
+    </div>
+
+{% endblock %}

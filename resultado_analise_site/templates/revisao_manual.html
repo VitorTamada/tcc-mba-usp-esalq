@@ -1,0 +1,84 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+
+
+    <h3>Todos os resultados de análise de sites</h3>
+
+    <br>
+        <div class="left1">
+            <h4>Insira URL do site a ser analisado:</h4>
+            <form action="/revisao_manual/" method="POST" style="display: inline;">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" name='analisar' value="Analisar" style="display: inline;">
+            </form>
+
+            <br><br>------------------------------<br><br>
+
+            Total de sites analisados: {{ todos_ras|length }}
+            <br><br>
+
+            {% for k, lista in todos_ras.items %}
+                <form action="" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="k" value="{{ k }}">
+                    <input class="fa fa-trash-o" name="delete" type="submit" value="Delete"/>
+                </form>
+                <button onclick="myFunction('{{ k }}')" id="btn{{ k }}">&#11166;</button>
+                ({{ lista|length }})
+                <a href="https://{{ k }}"/>{{ k }}</a>
+                <div id="{{ k }}" style="display: none;">
+                    <ul>
+                        {% for v in lista %}
+                            <li>
+                                <a href="https://dequeuniversity.com/rules/axe/4.10/{{ v }}"/>
+                                    {{ v }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+        <div class="center1">
+            <h4>Violações que necessitam de revisão manual encontradas</h4>
+            {% for acv in todos_acv %}
+                <ul>
+                    <li>
+                        <b>Violação:</b>
+                            <a href="https://dequeuniversity.com/rules/axe/4.10/{{ acv.violacao }}"/>
+                                {{ acv.violacao }}
+                            </a><br>
+                        <b>Impacto:</b> {{ acv.impact }}<br>
+                        <b>Descrição:</b> {{ acv.description }}
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="right1">
+            <b>Número de ocorrências de cada violação:</b><br><br>
+            <table>
+                <tr class="first_tr">
+                    <th align="left"><b>Violação</b></th>
+                    <th align="right"><b>Número de ocorrências</b></th>
+                </tr>
+                {% for k, v in numero_ocorrencias_violacao.items %}
+                    <tr>
+                        <th align="left">
+                            <a href="https://dequeuniversity.com/rules/axe/4.10/{{ k }}"/>
+                                {{ k }}
+                            </a>
+                        </th>
+                        <th align="right">{{ v }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+
+
+    <h3>Analise dos resultados</h3>
+
+    <br>
+    <div class="row">
+        <div class="column">
+            Sites com mais violação:
+            <ul>
+                {% for site in site_mais_violacao %}
+                    <li>{{ site }}</li>
+                {% endfor %}
+            </ul>
+            <br>
+            Número de violações: {{ maior_numero_violacoes }}
+        </div>
+        <div class="column">
+            Número de ocorrências de cada violação:<br><br>
+            <table border="1">
+                <tr>
+                    <th align="left"><b>Violação</b></th>
+                    <th align="right"><b>Número de ocorrências</b></th>
+                </tr>
+                {% for k, v in numero_ocorrencias_violacao.items %}
+                    <tr>
+                        <th align="left">{{ k }}</th>
+                        <th align="right">{{ v }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

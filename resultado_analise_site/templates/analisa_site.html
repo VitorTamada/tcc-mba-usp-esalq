@@ -1,0 +1,33 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+    <h3>Análise de site</h3>
+
+    <p>Insira URL do site a ser analisado:</p>
+
+    <form action="/analisa_site/" method="post" style="display: inline;">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Analisar" style="display: inline;">
+    </form>
+
+    <br><br>
+
+    Sites analisados até o momento:<br>
+    {% if todos_sa|length > 0 %}
+        <ul>
+        {% for sa in todos_sa %}
+            <li>{{ sa.url }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <ul>
+            <li>(vazio)</li>
+        </ul>
+    {% endif %}
+{% endblock %}
+

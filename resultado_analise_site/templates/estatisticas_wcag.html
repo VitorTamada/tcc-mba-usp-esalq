@@ -1,0 +1,155 @@
+{% extends "cabecalho.html" %}
+
+{% block title %}
+    TCC MBA USP/ESALQ - Análise de site
+{% endblock %}
+
+{% block content %}
+
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
+    <h3>Estatísticas dos resultados</h3>
+    <br>
+    Número total de ocorrências de critérios reprovados: {{ numero_total_violacoes }}
+    <br>
+    Para mais informações dos critérios, <a href="https://www.w3c.br/traducoes/wcag/wcag22-pt-BR/"/>clique aqui.</a>
+    <br>
+
+    <div class="left1" style="padding: 5px;">
+        <h4>Tipo de deficiência com maior número de critérios reprovados:</h4>
+        <br>
+        <table>
+            <tr class="first_tr">
+                <th align="left"><b>Deficiências ({{ numero_criterios_por_deficiencia|length }})</b></th>
+                <th align="right"><b>Critérios reprovados</b></th>
+                <th align="right"><b>Critérios reprovados (%)</b></th>
+            </tr>
+            {% for k, dpv in numero_criterios_por_deficiencia.items %}
+                <tr>
+                    <th align="left">{{ k }}</th>
+                    <th align="right">{{ dpv.0 }}</th>
+                    <th align="right">{{ dpv.1 }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br><br><br>------------------------------<br><br><br>
+
+        <h4>Número de ocorrências de cada critério reprovado</h4><br>
+        <table>
+            <tr class="first_tr">
+                <th align="left"><b>Critério ({{ numero_ocorrencias_criterio|length }})</b></th>
+                <th align="right"><b>Ocorrências</b></th>
+                <th align="right"><b>Ocorrências (%)</b></th>
+                <th align="right"><b>Categorias de sítios afetados</b></th>
+            </tr>
+            {% for k, v in numero_ocorrencias_criterio.items %}
+                <tr>
+                    <th align="left">
+                        {{ k }}
+                    </th>
+                    <th align="right">{{ v.0 }}</th>
+                    <th align="right">{{ v.1 }}</th>
+                    <th align="right" style="padding: 5px">
+                        {% for cat in v.2 %}
+                            {{ cat }}<br>
+                        {% endfor %}
+                    </th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="center1" style="padding: 5px;">
+        <h4>Graus de prioridade</h4>
+        <table>
+            <tr class="first_tr">
+                <th align="left"><b>Grau de prioridade</b></th>
+                <th align="right"><b>Ocorrências</b></th>
+                <th align="right"><b>Ocorrências (%)</b></th>
+            </tr>
+            {% for k, nvp in numero_violacoes_por_prioridade.items %}
+                <tr>
+                    <th align="left">{{ k }}</th>
+                    <th align="right">{{ nvp.0 }}</th>
+                    <th align="right">{{ nvp.1 }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br><br><br>------------------------------<br><br><br>
+
+        <h4>Critérios reprovados por categoria de site</h4>
+        <table>
+            <tr class="first_tr">
+                <th align="left"><b>Categoria (Qtd. analisados)</b></th>
+                <th align="right"><b>Critérios reprovados</b></th>
+                <th align="right"><b>Critérios reprovados (%)</b></th>
+            </tr>
+            {% for k, nvcs in numero_criterios_reprovados_por_site.items %}
+                <tr>
+                    <th align="left">{{ k }} ({{ nvcs.2 }})</th>
+                    <th align="right">{{ nvcs.0 }}</th>
+                    <th align="right">{{ nvcs.1 }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="right1" style="padding: 5px;">
+        <h4>Critérios reprovados por categoria de sítio</h4>
+        <table>
+            <tr class="first_tr">
+                <th align="left"><b>Categoria</b></th>
+                <th align="left"><b>Ocorrências</b></th>
+                <th align="left"><b>Deficiências afetadas</b></th>
+            </tr>
+            {% for categoria, lista_violacoes in criterios_reprovados_por_categoria_de_site.items %}
+                <tr>
+                    <th align="left">
+                        {{ categoria }}
+                    </th>
+                    <th align="left">
+                        <table style="height: 100%; width: 100%;">
+                            {% for lista_interna in lista_violacoes.0 %}
+                                <tr style="height: 100%;">
+                                    {% for v in lista_interna %}
+                                        <th>
+                                            <div style="text-align: center; vertical-align: text-top;">
+                                                {{ v.0 }}
+                                            </div>
+                                            <br>
+                                            <div style="text-align: center; vertical-align: text-bottom;"><b>({{ v.1 }})</b></div>
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </th>
+                    <th align="left">
+                        <table style="height: 100%; width: 100%;">
+                            {% for lista_interna in lista_violacoes.1 %}
+                                <tr style="height: 100%;">
+                                    {% for v in lista_interna %}
+                                        <th>
+                                            <div style="text-align: center; vertical-align: text-top;">
+                                                {{ v.0 }}
+                                            </div>
+                                            <br>
+                                            <div style="text-align: center; vertical-align: text-bottom;"><b>({{ v.1 }})</b></div>
+                                            <br>
+                                            <div style="text-align: center; vertical-align: text-bottom;"><b>({{ v.2 }})</b></div>
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
